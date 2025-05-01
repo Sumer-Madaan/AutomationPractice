@@ -1,0 +1,23 @@
+Feature: Verify the homepage functionalities of Green Kart Homepage.
+
+#Scenario Outline: Verify user is able to add products to cart
+#Given user is on Greenkart Homepage
+#When user search vegetable <vegetable>
+#And select the <quantity>
+#And click on ADD TO CART button
+#Then Items, quantity and amount should reflect in cart
+#
+#Examples:
+#| vegetable	| quantity	|
+#| Potato		| 7					|
+#| Mushroom	| 5					|
+
+
+Scenario: Verify user is able to add products to cart
+Given user is on Greenkart Homepage
+When user search vegetable and select the quantity and click on ADD TO CART button
+| Potato		| 7					|
+| Mushroom	| 5					|
+Then Items, quantity and amount should reflect in cart
+When user click on PROCEED TO CHECKOUT button
+Then user should navigate to checkout page
