@@ -21,3 +21,5 @@ When user search vegetable and select the quantity and click on ADD TO CART butt
 Then Items, quantity and amount should reflect in cart
 When user click on PROCEED TO CHECKOUT button
 Then user should navigate to checkout page
+
+#Scenario: Yet to decide
