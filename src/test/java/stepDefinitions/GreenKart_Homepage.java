@@ -15,13 +15,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import pageObjects.HomePageObjects;
 
 public class GreenKart_Homepage {
 
 	WebDriver driver;
 	List<List<String>> items;
 	
-	@Given("user is on Greenkart Homepage")
+	@Given("user is on Greenkart Homepage page")
 	public void user_is_on_Greenkart_Homepage()
 	{
 		System.setProperty("webdriver.driver.chrome", "C:\\Users\\sumer\\Softwares\\ChromeDriver\\chromedriver.exe");
@@ -29,24 +30,29 @@ public class GreenKart_Homepage {
 		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
 		driver.manage().window().maximize();
 	}
-
+	
 	@When("user search vegetable and select the quantity and click on ADD TO CART button")
 	public void user_search_vegetable_and_select_the_quantity(List<List<String>> items) throws InterruptedException {
 
 		this.items = items;
 		for(List<String> item:items)
 		{
-			driver.findElement(By.className("search-keyword")).sendKeys(item.get(0));
+			HomePageObjects obj = new HomePageObjects(driver);
+			obj.searchItem(item.get(0));
+//			driver.findElement(By.className("search-keyword")).sendKeys(item.get(0));
 			
 			Thread.sleep(1000);
 			for(int i=1;i<Integer.parseInt(item.get(1));i++)
 			{				
-				driver.findElement(By.className("increment")).click();
+//				driver.findElement(By.className("increment")).click();
+				obj.addItemSearched();
 			}
 
-			driver.findElement(By.className("search-keyword")).clear();
+//			driver.findElement(By.className("search-keyword")).clear();
+			obj.clearSearchBox();
 
-			driver.findElement(By.xpath("//button[text()='ADD TO CART']")).click();
+//			driver.findElement(By.xpath("//button[text()='ADD TO CART']")).click();
+			obj.addToCart();
 			Thread.sleep(1000);
 		}
 	}
