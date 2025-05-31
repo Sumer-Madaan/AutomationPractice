@@ -16,19 +16,26 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import pageObjects.HomePageObjects;
+import utilities.TestContextSetup;
 
 public class GreenKart_Homepage {
+	
+	TestContextSetup testContextSetup;
+	
+	public GreenKart_Homepage(TestContextSetup testContextSetup)
+	{
+		this.testContextSetup = testContextSetup;
+	}
 
-	WebDriver driver;
 	List<List<String>> items;
 	
 	@Given("user is on Greenkart Homepage page")
 	public void user_is_on_Greenkart_Homepage()
 	{
 		System.setProperty("webdriver.driver.chrome", "C:\\Users\\sumer\\Softwares\\ChromeDriver\\chromedriver.exe");
-		driver = new ChromeDriver();
-		driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
-		driver.manage().window().maximize();
+		testContextSetup.driver = new ChromeDriver();
+		testContextSetup.driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
+		testContextSetup.driver.manage().window().maximize();
 	}
 	
 	@When("user search vegetable and select the quantity and click on ADD TO CART button")
@@ -37,7 +44,7 @@ public class GreenKart_Homepage {
 		this.items = items;
 		for(List<String> item:items)
 		{
-			HomePageObjects obj = new HomePageObjects(driver);
+			HomePageObjects obj = new HomePageObjects(testContextSetup.driver);
 			obj.searchItem(item.get(0));
 //			driver.findElement(By.className("search-keyword")).sendKeys(item.get(0));
 			
@@ -65,23 +72,23 @@ public class GreenKart_Homepage {
 		int quantity = 0;
 		int amount = 0;
 		
-		driver.findElement(By.className("cart-icon")).click();
+		testContextSetup.driver.findElement(By.className("cart-icon")).click();
 		
-		List<WebElement> itemsInCart = driver.findElements(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li"));
+		List<WebElement> itemsInCart = testContextSetup.driver.findElements(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li"));
 		
 		for(int i=1;i<=itemsInCart.size();i++)
 		{
-			String itemName = driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div/p[@class='product-name']")).getText();
+			String itemName = testContextSetup.driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div/p[@class='product-name']")).getText();
 			
 			if(itemName.contains("-"))
 			{
 				vegetableName = itemName.split("-")[0].trim();
 			}
 			
-			productPrice = Integer.parseInt(driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div/p[@class='product-price']")).getText());
+			productPrice = Integer.parseInt(testContextSetup.driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div/p[@class='product-price']")).getText());
 
-			quantity = Integer.parseInt(driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div[2]/p[@class='quantity']")).getText().split(" ")[0].trim());
-			amount = Integer.parseInt(driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div[2]/p[@class='amount']")).getText().split(" ")[0].trim());
+			quantity = Integer.parseInt(testContextSetup.driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div[2]/p[@class='quantity']")).getText().split(" ")[0].trim());
+			amount = Integer.parseInt(testContextSetup.driver.findElement(By.xpath("//div[@class ='cart-preview active']/div/div/ul/li[@class='cart-item'][" + i + "]/div[2]/p[@class='amount']")).getText().split(" ")[0].trim());
 			assertEquals(vegetableName, items.get(i-1).get(0));
 			assertEquals(amount, quantity*productPrice);
 		}
@@ -90,15 +97,15 @@ public class GreenKart_Homepage {
 	@When("user click on PROCEED TO CHECKOUT button")
 	public void user_click_on_PROCEED_TO_CHECKOUT_button()
 	{
-		driver.findElement(By.xpath("//button[text()='PROCEED TO CHECKOUT']")).click();
+		testContextSetup.driver.findElement(By.xpath("//button[text()='PROCEED TO CHECKOUT']")).click();
 	}
 	
 	@Then("user should navigate to checkout page")
 	public void user_should_navigate_to_checkout_page()
 	{
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+		WebDriverWait wait = new WebDriverWait(testContextSetup.driver, Duration.ofSeconds(2));
 		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Place Order']")));
 		
-		assertEquals(driver.getCurrentUrl(), "https://rahulshettyacademy.com/seleniumPractise/#/cart");
+		assertEquals(testContextSetup.driver.getCurrentUrl(), "https://rahulshettyacademy.com/seleniumPractise/#/cart");
 	}
 }
