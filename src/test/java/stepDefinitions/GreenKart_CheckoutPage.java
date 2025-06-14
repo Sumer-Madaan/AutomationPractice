@@ -1,24 +1,19 @@
 package stepDefinitions;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.testng.Assert;
 
 import io.cucumber.java.en.Given;
-import utilities.TestContextSetup;
+import utilities.DriverManager;
 
 public class GreenKart_CheckoutPage {
 	
-	TestContextSetup testContextSetup;
-	
-	public GreenKart_CheckoutPage(TestContextSetup testContextSetup)
-	{
-		this.testContextSetup = testContextSetup;
-	}
+	WebDriver driver = DriverManager.getDriver();
 	
 	@Given("User is on Greenkart Checkout page")
 	public void user_is_on_Greenkart_Checkout_page()
 	{
-		Assert.assertEquals("GreenKart - veg and fruits kart", testContextSetup.driver.getTitle());
+		System.out.println(driver.findElement(By.xpath("//*[@id=\"productCartTables\"]/tbody/tr/td[2]/p")).getText());
 	}
 
 }
