@@ -31,8 +31,7 @@ public class Hooks {
 	   if(scenario.isFailed())
 	   {
 		   File srcFile = ((TakesScreenshot)DriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
-		   
-		   FileUtils.copyFile(srcFile, new File("C:\\Users\\sumer\\eclipse-workspace\\JavaUIAutomation\\Screenshots\\screenshot.png"));
+		   FileUtils.copyFile(srcFile, new File(System.getProperty("user.dir")+"\\Screenshots\\screenshot.png"));
 	   }
    }
 
