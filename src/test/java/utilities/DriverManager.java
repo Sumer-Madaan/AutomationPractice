@@ -21,7 +21,6 @@ public class DriverManager {
 				Properties prop = new Properties();
 				prop.load(fis);
 				String browser = prop.getProperty("browser");
-				System.out.println(browser);
 				if(browser.equalsIgnoreCase("chrome"))
 				{
 					System.setProperty("webdriver.chrome.driver", "C:\\Users\\sumer\\Softwares\\ChromeDriver\\chromedriver.exe");
