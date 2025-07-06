@@ -30,8 +30,11 @@ public class Hooks {
    {
 	   if(scenario.isFailed())
 	   {
-		   File srcFile = ((TakesScreenshot)DriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
-		   FileUtils.copyFile(srcFile, new File(System.getProperty("user.dir")+"\\Screenshots\\screenshot.png"));
+	//	   File srcFile = ((TakesScreenshot)DriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
+	//	   FileUtils.copyFile(srcFile, new File(System.getProperty("user.dir")+"\\Screenshots\\screenshot.png"));
+		   
+		   byte[] screenshot = ((TakesScreenshot)DriverManager.getDriver()).getScreenshotAs(OutputType.BYTES);
+		   scenario.attach(screenshot, "image/png", scenario.getName());
 	   }
    }
 
