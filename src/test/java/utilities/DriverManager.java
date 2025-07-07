@@ -19,7 +19,7 @@ public class DriverManager {
 		try {
 			if(driver == null)
 			{
-				FileInputStream fis = new FileInputStream("C:\\Users\\sumer\\eclipse-workspace\\JavaUIAutomation\\src\\test\\resources\\global.properties");
+				FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\global.properties");
 				Properties prop = new Properties();
 				prop.load(fis);
 				String browser = prop.getProperty("browser");
