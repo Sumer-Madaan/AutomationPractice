@@ -23,7 +23,9 @@ public class DriverManager {
 				Properties prop = new Properties();
 				prop.load(fis);
 				String browser = prop.getProperty("browser");
-				if(browser.equalsIgnoreCase("chrome"))
+				String maven_Browser = System.getProperty("browser");
+				String final_Browser = maven_Browser!=null ? maven_Browser : browser;
+				if(final_Browser.equalsIgnoreCase("chrome"))
 				{
 					System.setProperty("webdriver.chrome.driver", "C:\\Users\\sumer\\Softwares\\ChromeDriver\\chromedriver.exe");
 					ChromeOptions chromeOptions = new ChromeOptions();
@@ -37,7 +39,7 @@ public class DriverManager {
 					driver = new ChromeDriver(chromeOptions);
 
 				}
-				else if(browser.equalsIgnoreCase("edge"))
+				else if(final_Browser.equalsIgnoreCase("edge"))
 				{
 					System.setProperty("webdriver.edge.driver", "C:\\Users\\sumer\\Softwares\\EdgeDriver\\edgedriver_win64\\msedgedriver.exe");
 					EdgeOptions edgeOptions = new EdgeOptions();
