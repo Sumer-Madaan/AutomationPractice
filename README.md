@@ -32,7 +32,7 @@ This project demonstrates end-to-end web UI automation using **Java**, **Seleniu
    ```
 
 4. **View Test Reports**
-   - Reports will be generated in the `target` directory.
+   - Reports will be generated in the `test-output` directory.
 
 **Project Structure**
 
