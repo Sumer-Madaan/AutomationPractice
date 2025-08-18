@@ -1,9 +1,7 @@
 package hooks;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -17,7 +15,8 @@ public class Hooks {
 	
 	@Before
     public void setUp() {
-        DriverManager.getDriver();
+  //      DriverManager.getDriver();
+        DriverManager.initDriver();
     }
 
    @After

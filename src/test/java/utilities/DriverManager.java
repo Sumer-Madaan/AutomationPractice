@@ -12,13 +12,20 @@ import org.openqa.selenium.edge.EdgeOptions;
 
 public class DriverManager {
 
-	private static WebDriver driver;
+	private static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
 
-	public static WebDriver getDriver()
+	public static WebDriver getDriver() {
+        return tlDriver.get();
+    }
+	
+	public static void initDriver()
 	{
+		
 		try {
-			if(driver == null)
+			if(tlDriver.get() == null)
 			{
+				WebDriver driver = null;
+				
 				FileInputStream fis = new FileInputStream(System.getProperty("user.dir") + "\\src\\test\\resources\\global.properties");
 				Properties prop = new Properties();
 				prop.load(fis);
@@ -27,7 +34,7 @@ public class DriverManager {
 				String final_Browser = maven_Browser!=null ? maven_Browser : browser;
 				if(final_Browser.equalsIgnoreCase("chrome"))
 				{
-					System.setProperty("webdriver.chrome.driver", "C:\\Users\\sumer\\Softwares\\ChromeDriver\\chromedriver.exe");
+					System.setProperty("webdriver.chrome.driver", "C:\\Users\\sumer\\Softwares\\WebDrivers\\ChromeDriver\\chromedriver.exe");
 					ChromeOptions chromeOptions = new ChromeOptions();
 					
 					String headless = prop.getProperty("headless");
@@ -41,7 +48,7 @@ public class DriverManager {
 				}
 				else if(final_Browser.equalsIgnoreCase("edge"))
 				{
-					System.setProperty("webdriver.edge.driver", "C:\\Users\\sumer\\Softwares\\EdgeDriver\\edgedriver_win64\\msedgedriver.exe");
+					System.setProperty("webdriver.edge.driver", "C:\\Users\\sumer\\Softwares\\WebDrivers\\EdgeDriver\\edgedriver_win64\\msedgedriver.exe");
 					EdgeOptions edgeOptions = new EdgeOptions();
 					String headless = prop.getProperty("headless");
 					if(headless.equalsIgnoreCase("true"))
@@ -51,20 +58,25 @@ public class DriverManager {
 					
 					driver = new EdgeDriver(edgeOptions);
 				}
+				else
+				{
+					System.out.println("Unsupported Browser");
+				}
 
 				driver.manage().window().maximize();
+				
 				driver.get("https://rahulshettyacademy.com/seleniumPractise/#/");
+				tlDriver.set(driver);
 			}
 	}catch (IOException e) {
 
 		e.printStackTrace();
 	}
-
-	return driver;
 }
 
 public static void quitDriver()
 {
+	WebDriver driver = tlDriver.get();
 	if(driver!=null)
 	{
 		driver.quit();
